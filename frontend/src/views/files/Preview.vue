@@ -383,9 +383,11 @@ const key = (event: KeyboardEvent) => {
   if (layoutStore.currentPrompt !== null) {
     return;
   }
-  // 預覽影片時，把左右鍵讓給 video.js 做 seek；Enter 仍可切下一個
+  // When previewing a video, let arrow keys fall through to video.js for
+  // seeking instead of switching to the prev/next file. Enter still advances.
   const isVideo = fileStore.req?.type === "video";
   if (event.which === 13) {
+    // enter
     if (hasNext.value) next();
   } else if (event.which === 39) {
     // right arrow
