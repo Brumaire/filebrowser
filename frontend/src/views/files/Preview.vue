@@ -383,11 +383,17 @@ const key = (event: KeyboardEvent) => {
   if (layoutStore.currentPrompt !== null) {
     return;
   }
-  if (event.which === 13 || event.which === 39) {
+  // 預覽影片時，把左右鍵讓給 video.js 做 seek；Enter 仍可切下一個
+  const isVideo = fileStore.req?.type === "video";
+  if (event.which === 13) {
+    if (hasNext.value) next();
+  } else if (event.which === 39) {
     // right arrow
+    if (isVideo) return;
     if (hasNext.value) next();
   } else if (event.which === 37) {
     // left arrow
+    if (isVideo) return;
     if (hasPrevious.value) prev();
   } else if (event.which === 27) {
     // esc
